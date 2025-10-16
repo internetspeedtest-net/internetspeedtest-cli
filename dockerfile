@@ -3,17 +3,17 @@ FROM golang:1.20.3-alpine as builder
 RUN apk add --no-cache bash upx
 
 # Set working directory
-WORKDIR /usr/src/librespeed-cli
+WORKDIR /usr/src/internetspeedtest
 
-# Copy librespeed-cli
+# Copy internetspeedtest
 COPY . .
 
-# Build librespeed-cli
+# Build internetspeedtest
 RUN ./build.sh
 
 FROM alpine:3.17
 
-# Copy librespeed-cli binary
-COPY --from=builder /usr/src/librespeed-cli/out/librespeed-cli* /bin/librespeed-cli
+# Copy internetspeedtest binary
+COPY --from=builder /usr/src/internetspeedtest/out/internetspeedtest* /bin/internetspeedtest
 
-CMD ["/bin/librespeed-cli"]
+CMD ["/bin/internetspeedtest"]

@@ -1,5 +1,5 @@
 version: 2
-project_name: "librespeed-cli"
+project_name: "internetspeedtest"
 #dist: ./out
 before:
   hooks:
@@ -12,7 +12,7 @@ builds:
     flags:
       - -trimpath
     ldflags:
-      - -w -s -X "librespeed-cli/defs.ProgName={{ .ProjectName }}" -X "librespeed-cli/defs.ProgVersion=v{{ .Version }}" -X "librespeed-cli/defs.BuildDate={{ .Date }}"
+      - -w -s -X "github.com/internetspeedtest-net/internetspeedtest-cli/defs.ProgName={{ .ProjectName }}" -X "github.com/internetspeedtest-net/internetspeedtest-cli/defs.ProgVersion=v{{ .Version }}" -X "github.com/internetspeedtest-net/internetspeedtest-cli/defs.BuildDate={{ .Date }}"
     goos:
       - linux
       - darwin

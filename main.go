@@ -6,8 +6,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
 
-	"github.com/librespeed/speedtest-cli/defs"
-	"github.com/librespeed/speedtest-cli/speedtest"
+	"github.com/internetspeedtest-net/internetspeedtest-cli/defs"
+	"github.com/internetspeedtest-net/internetspeedtest-cli/speedtest"
 )
 
 // init sets up the essential bits on start up
@@ -28,8 +28,8 @@ func init() {
 func main() {
 	// define cli options
 	app := &cli.App{
-		Name:     "librespeed-cli",
-		Usage:    "Test your Internet speed with LibreSpeed",
+		Name:     "internetspeedtest",
+		Usage:    "Test your Internet speed with InternetSpeedTest",
 		Action:   speedtest.SpeedTest,
 		HideHelp: true,
 		Flags: []cli.Flag{

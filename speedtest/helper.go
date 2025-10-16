@@ -15,10 +15,10 @@ import (
 
 	"github.com/briandowns/spinner"
 	"github.com/gocarina/gocsv"
-	"github.com/librespeed/speedtest-cli/defs"
-	"github.com/librespeed/speedtest-cli/report"
+	"github.com/internetspeedtest-net/internetspeedtest-cli/defs"
+	"github.com/internetspeedtest-net/internetspeedtest-cli/report"
 	log "github.com/sirupsen/logrus"
-"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v2"
 )
 
 const (
@@ -201,6 +201,11 @@ func doSpeedTest(c *cli.Context, servers []defs.Server, telemetryServer defs.Tel
 		} else {
 			os.Stdout.Write(b[:])
 		}
+	}
+
+	// Show "Powered by" message for normal output mode (excluding CSV and JSON)
+	if !c.Bool(defs.OptionCSV) && !c.Bool(defs.OptionJSON) {
+		fmt.Println("Powered by https://internetspeedtest.net")
 	}
 
 	return nil

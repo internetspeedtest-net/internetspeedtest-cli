@@ -20,13 +20,13 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
 
-	"github.com/librespeed/speedtest-cli/defs"
-	"github.com/librespeed/speedtest-cli/report"
+	"github.com/internetspeedtest-net/internetspeedtest-cli/defs"
+	"github.com/internetspeedtest-net/internetspeedtest-cli/report"
 )
 
 const (
 	// serverListUrl is the default remote server JSON URL
-	serverListUrl = `https://librespeed.org/backend-servers/servers.php`
+	serverListUrl = `https://internetspeedtest.net/api/servers`
 
 	defaultTelemetryLevel  = "basic"
 	defaultTelemetryServer = "https://librespeed.org"
@@ -67,11 +67,11 @@ func SpeedTest(c *cli.Context) error {
 	if c.Bool(defs.OptionVersion) {
 		log.SetOutput(os.Stdout)
 		log.Warnf("%s %s (built on %s)", defs.ProgName, defs.ProgVersion, defs.BuildDate)
-		log.Warn("https://github.com/librespeed/speedtest-cli")
+		log.Warn("https://github.com/internetspeedtest-net/internetspeedtest-cli")
 		log.Warn("Licensed under GNU Lesser General Public License v3.0")
 		log.Warn("LibreSpeed\tCopyright (C) 2016-2020 Federico Dossena")
-		log.Warn("librespeed-cli\tCopyright (C) 2020 Maddie Zhan")
-		log.Warn("librespeed.org\tCopyright (C)")
+		log.Warn("internetspeedtest\tCopyright (C) 2020 Maddie Zhan")
+		log.Warn("internetspeedtest.net\tCopyright (C)")
 		return nil
 	}
 
@@ -249,7 +249,7 @@ func SpeedTest(c *cli.Context) error {
 		if str := c.String(defs.OptionServerJSON); str != "" {
 			serverUrl = str
 		}
-		log.Infof("Retrieving server list from %s", serverUrl)
+		log.Infof("Retrieving server list from https://internetspeedtest.net")
 
 		servers, err = getServerList(c.Bool(defs.OptionSecure), serverUrl, c.IntSlice(defs.OptionExclude), c.IntSlice(defs.OptionServer), !c.Bool(defs.OptionList))
 

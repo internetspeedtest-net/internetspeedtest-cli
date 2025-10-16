@@ -1,4 +1,4 @@
-module github.com/librespeed/speedtest-cli
+module github.com/internetspeedtest-net/internetspeedtest-cli
 
 go 1.23.0
 
