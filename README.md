@@ -465,7 +465,7 @@ We extend our gratitude to the LibreSpeed community and contributors who created
 
 - **🌐 Web Interface**: [InternetSpeedTest.net](https://internetspeedtest.net) - Fast, privacy-focused web speed test
 - **🐍 Python Package**: [internetspeedtest](https://pypi.org/project/internetspeedtest/) - Python library and CLI
-- **📊 API Documentation**: [API Reference](https://internetspeedtest.net/api) - Integrate speed tests into your applications
+- **📊 Blog**: [Blog](https://internetspeedtest.net/blog) - Integrate speed tests into your applications
 - **🔗 LibreSpeed**: [Original Project](https://github.com/librespeed/speedtest) - Self-hosted speed test solution
 
 ---
@@ -476,7 +476,7 @@ We extend our gratitude to the LibreSpeed community and contributors who created
 
 Made with ❤️ by the InternetSpeedTest.net team
 
-[Website](https://internetspeedtest.net) • [API](https://internetspeedtest.net/api) • [Support](https://github.com/internetspeedtest-net/internetspeedtest-cli/issues) • [Donate](https://internetspeedtest.net/donate)
+[Website](https://internetspeedtest.net) • [Blog](https://internetspeedtest.net/blog) • [Support](https://github.com/internetspeedtest-net/internetspeedtest-cli/issues)
 
 **Powered by [InternetSpeedTest.net](https://internetspeedtest.net)**
 
