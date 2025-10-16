@@ -1,87 +1,196 @@
 version: 2
 project_name: "internetspeedtest"
-#dist: ./out
+dist: ./dist
+
+env:
+  - GO111MODULE=on
+  - CGO_ENABLED=0
+
 before:
   hooks:
     - go mod download
+    - go mod tidy
+
 builds:
   - main: ./main.go
-    id: upx
+    id: "internetspeedtest"
+    binary: "internetspeedtest"
     env:
       - CGO_ENABLED=0
     flags:
       - -trimpath
     ldflags:
-      - -w -s -X "github.com/internetspeedtest-net/internetspeedtest-cli/defs.ProgName={{ .ProjectName }}" -X "github.com/internetspeedtest-net/internetspeedtest-cli/defs.ProgVersion=v{{ .Version }}" -X "github.com/internetspeedtest-net/internetspeedtest-cli/defs.BuildDate={{ .Date }}"
-    goos:
-      - linux
-      - darwin
-      - freebsd
-    goarch:
-      - "386"
-      - amd64
-      - arm
-      - arm64
-    goarm:
-      - "5"
-      - "6"
-      - "7"
-    ignore:
-      - goos: darwin
-        goarch: "386"
-      - goos: darwin
-        goarch: arm64
-    hooks:
-      post:
-        - ./upx.sh -9 "{{ .Path }}"
-  - main: ./main.go
-    id: no-upx
-    env:
-      - CGO_ENABLED=0
-    flags:
-      - -trimpath
-    ldflags:
-      - -w -s -X "librespeed-cli/defs.ProgName={{ .ProjectName }}" -X "librespeed-cli/defs.ProgVersion=v{{ .Version }}" -X "librespeed-cli/defs.BuildDate={{ .Date }}"
+      - -w -s 
+      - -X "github.com/internetspeedtest-net/internetspeedtest-cli/defs.ProgName={{ .ProjectName }}" 
+      - -X "github.com/internetspeedtest-net/internetspeedtest-cli/defs.ProgVersion=v{{ .Version }}" 
+      - -X "github.com/internetspeedtest-net/internetspeedtest-cli/defs.BuildDate={{ .Date }}"
     goos:
       - linux
       - windows
       - darwin
+      - freebsd
+      - openbsd
+      - netbsd
     goarch:
       - "386"
       - amd64
+      - arm
       - arm64
       - mips
       - mipsle
       - mips64
       - mips64le
       - riscv64
+    goarm:
+      - "5"
+      - "6"
+      - "7"
     gomips:
       - hardfloat
       - softfloat
     ignore:
-      - goos: linux
-        goarch: "386"
-      - goos: linux
-        goarch: amd64
-      - goos: linux
-        goarch: arm64
+      # Darwin 32-bit is not supported
       - goos: darwin
         goarch: "386"
-      - goos: darwin
-        goarch: amd64
-archives:
-  - format_overrides:
+      # Windows ARM is not commonly needed
       - goos: windows
-        formats: ['zip']
+        goarch: arm
+      - goos: windows
+        goarch: arm64
+      # BSD systems with exotic architectures
+      - goos: freebsd
+        goarch: mips
+      - goos: freebsd
+        goarch: mipsle
+      - goos: freebsd
+        goarch: mips64
+      - goos: freebsd
+        goarch: mips64le
+      - goos: openbsd
+        goarch: mips
+      - goos: openbsd
+        goarch: mipsle
+      - goos: openbsd
+        goarch: mips64
+      - goos: openbsd
+        goarch: mips64le
+      - goos: netbsd
+        goarch: mips
+      - goos: netbsd
+        goarch: mipsle
+      - goos: netbsd
+        goarch: mips64
+      - goos: netbsd
+        goarch: mips64le
+
+archives:
+  - id: "internetspeedtest"
+    builds:
+      - "internetspeedtest"
+    name_template: "{{ .ProjectName }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}{{ if .Mips }}-{{ .Mips }}{{ end }}"
+    format_overrides:
+      - goos: windows
+        format: zip
     files:
       - LICENSE
+      - README.md
+
 checksum:
   name_template: "checksums.txt"
+  algorithm: sha256
+
 changelog:
   disable: false
   sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^ci:"
+      - "^build:"
+      - "^chore:"
+
 release:
   github:
-    owner: librespeed
-    name: speedtest-cli
+    owner: internetspeedtest-net
+    name: internetspeedtest-cli
   disable: false
+  draft: false
+  prerelease: auto
+  name_template: "v{{ .Version }}"
+  header: |
+    ## InternetSpeedTest CLI v{{ .Version }}
+    
+    **Download the appropriate binary for your platform below:**
+    
+  footer: |
+    **Full Changelog**: https://github.com/internetspeedtest-net/internetspeedtest-cli/compare/{{ .PreviousTag }}...{{ .Tag }}
+    
+    **Powered by [InternetSpeedTest.net](https://internetspeedtest.net)**
+
+nfpms:
+  - id: "internetspeedtest"
+    builds:
+      - "internetspeedtest"
+    package_name: "internetspeedtest"
+    vendor: "InternetSpeedTest.net"
+    homepage: "https://internetspeedtest.net"
+    maintainer: "InternetSpeedTest.net <support@internetspeedtest.net>"
+    description: "Official command line client for InternetSpeedTest.net speed testing"
+    license: "MIT"
+    formats:
+      - deb
+      - rpm
+      - apk
+    dependencies:
+      - ca-certificates
+    section: "utils"
+    priority: "optional"
+
+brews:
+  - name: "internetspeedtest"
+    ids:
+      - "internetspeedtest"
+    repository:
+      owner: "internetspeedtest-net"
+      name: "homebrew-tap"
+    homepage: "https://internetspeedtest.net"
+    description: "Official command line client for InternetSpeedTest.net speed testing"
+    license: "MIT"
+    test: |
+      system "#{bin}/internetspeedtest", "--version"
+
+scoops:
+  - name: "internetspeedtest"
+    ids:
+      - "internetspeedtest"
+    repository:
+      owner: "internetspeedtest-net"
+      name: "scoop-bucket"
+    homepage: "https://internetspeedtest.net"
+    description: "Official command line client for InternetSpeedTest.net speed testing"
+    license: "MIT"
+
+chocolateys:
+  - name: "internetspeedtest"
+    ids:
+      - "internetspeedtest"
+    owners: "InternetSpeedTest.net"
+    title: "InternetSpeedTest CLI"
+    authors: "InternetSpeedTest.net"
+    project_url: "https://github.com/internetspeedtest-net/internetspeedtest-cli"
+    copyright: "2024 InternetSpeedTest.net"
+    license_url: "https://github.com/internetspeedtest-net/internetspeedtest-cli/blob/main/LICENSE"
+    require_license_acceptance: false
+    project_source_url: "https://github.com/internetspeedtest-net/internetspeedtest-cli"
+    docs_url: "https://internetspeedtest.net/api"
+    bug_tracker_url: "https://github.com/internetspeedtest-net/internetspeedtest-cli/issues"
+    tags: "speedtest internet network cli tool"
+    summary: "Official command line client for InternetSpeedTest.net speed testing"
+    description: |
+      InternetSpeedTest CLI is the official command line client for InternetSpeedTest.net.
+      
+      Test your internet connection speed directly from your terminal with privacy-focused, 
+      accurate measurements. Supports multiple output formats (JSON, CSV, simple) for 
+      automation and scripting.
+    release_notes: "https://github.com/internetspeedtest-net/internetspeedtest-cli/releases/tag/v{{ .Version }}"
