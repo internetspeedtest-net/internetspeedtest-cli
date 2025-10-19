@@ -154,11 +154,29 @@ brews:
     repository:
       owner: "internetspeedtest-net"
       name: "homebrew-tap"
+      branch: "main"
     homepage: "https://internetspeedtest.net"
     description: "Official command line client for InternetSpeedTest.net speed testing"
     license: "MIT"
+    folder: "Formula"
     test: |
-      system "#{bin}/internetspeedtest", "--version"
+      assert_match "internetspeedtest v#{version}", shell_output("#{bin}/internetspeedtest --version")
+      assert_match "Usage:", shell_output("#{bin}/internetspeedtest --help")
+    install: |
+      bin.install "internetspeedtest"
+    caveats: |
+      InternetSpeedTest CLI has been installed successfully!
+      
+      Quick start:
+        internetspeedtest                 # Run basic speed test
+        internetspeedtest --simple        # Simple one-line output
+        internetspeedtest --json          # JSON output for automation
+        internetspeedtest --list          # List available servers
+      
+      For more information:
+        internetspeedtest --help
+        
+      Visit: https://internetspeedtest.net
 
 scoops:
   - name: "internetspeedtest"

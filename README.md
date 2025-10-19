@@ -39,7 +39,7 @@
 
 ## 🎬 See It In Action
 
-[![asciicast](https://asciinema.org/a/J17bUAilWI3qR12JyhfGvPwu2.svg)](https://asciinema.org/a/J17bUAilWI3qR12JyhfGvPwu2)
+[![asciicast](https://asciinema.org/a/749974.svg)](https://asciinema.org/a/749974)
 
 ---
 
